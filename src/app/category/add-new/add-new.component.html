@@ -1,0 +1,15 @@
+<form  [formGroup]="categoryForm"  (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label>Category Name</label>
+    <input type="text" class="form-control" formControlName="name" autofocus>
+  </div>
+  <div class="form-group">
+    <label >Choose image:</label>
+    <input type="file" class="form-control" (change)="onImagePicked($event)">
+  </div>
+  <div class="image-preview" *ngIf="categoryForm.get('imgUrl').value">
+    <img [src]="categoryForm.get('imgUrl').value">
+  </div>
+
+  <button [disabled]="categoryForm.invalid" type="submit" class="btn btn-default float-right">Add</button>
+</form>

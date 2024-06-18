@@ -1,0 +1,24 @@
+<div class="m-portlet_body">
+  <div class="table-responsive">
+    <table class="table table-bordered" style="text-align: center">
+      <thead>
+      <th>Applied Campaign </th>
+      <th>Approved</th>
+      <th>Rejected</th>
+      </thead>
+
+      <tbody >
+        <td>
+          <div *ngFor="let applied of applieds">{{ applied }}</div>
+        </td>
+        <td>
+          <div *ngFor="let approved of approveds">{{ approved }}</div>
+        </td>
+        <td>
+          <div *ngFor="let rejected of rejectds">{{ rejected }}</div>
+        </td>
+      </tbody>
+    </table>
+  </div>
+
+</div>

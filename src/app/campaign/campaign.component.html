@@ -1,0 +1,110 @@
+<div class="m-content">
+  <div class="m-portlet">
+
+
+    <div class="m-portlet">
+      <div class='m-portlet-head customhead'>
+        <h2 style="color: aliceblue">Campaign List</h2>
+      </div>
+      <div class='m-portlet-head '>
+        <button class="btn" (click)="selectAll()">Select all</button>
+        <button class="btn" (click)="delete()">Delete</button>
+        <button  (click)="openModal()"  class="btn">Add New</button>
+      </div>
+
+
+      <!-- The Modal -->
+      <div [style.display]='modal' id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeModal()" class="close">&times;</span>
+          <h3>Add New Campaign</h3>
+          <app-add-new-campaign (data)="receiveData($event)" [mode]="mode" [modal]="modal"></app-add-new-campaign>
+        </div>
+
+      </div>
+
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+                        <div class="input-group-btn search-panel">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_concept">Filter by</span> <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li><a (click)="ongoingCampaign()">OnGoing Campaign</a></li>
+                            <li><a (click)="expiredCampaign()">Expired Campaign</a></li>
+                          </ul>
+                        </div>
+
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Search text." [(ngModel)]="term" (input)="search()">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="search()">Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="m-portlet_body">
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align: center">
+            <thead>
+            <th>Select</th>
+            <th>No.</th>
+            <th>Logo</th>
+            <th>Catagory</th>
+            <th>Sub Catagory</th>
+            <th>Brand</th>
+            <th>Name</th>
+            <th>Max Earning</th>
+            <th>No of Participants</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Action</th>
+
+
+            </thead>
+
+            <tbody>
+            <tr *ngFor="let campaign of campaigns; index as i">
+              <td style="width: 20px;"><input class="" type="checkbox" name="" id="" [checked]="campaign.checked" (click)="onChecked(campaign._id)"></td>
+              <th scope="row">{{ (page-1)*perpage + i + 1 }}</th>
+              <td><img class="category-image" src="{{ campaign.imgUrl }}"></td>
+              <td>{{ campaign.category.name }}</td>
+              <td *ngIf="campaign.subcategory">{{ campaign.subcategory.name }}</td>
+              <td *ngIf="!campaign.subcategory">-</td>
+              <td>{{ campaign.brand.name }}</td>
+              <td>{{ campaign.name }}</td>
+              <td>{{ campaign.maxearning }}</td>
+              <td>{{ campaign.maxparticipant }}</td>
+              <td>{{ campaign.startedfrom | date: 'shortDate'}}</td>
+              <td>{{ campaign.expireson | date: 'shortDate'}}</td>
+              <td>
+                <button class="btn btn-warning" (click)="onEdit(i)" >Edit</button>
+                <a [routerLink]="['/usercampaign', campaign._id]" class="btn btn-danger">Show Users</a>
+                <a [routerLink]="['/show-approved-links', campaign._id]" class="btn btn-danger">Show Approved User</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="m-portlet-head">
+        <div class="pagination" >
+          <input type="text"  placeholder="per page" [(ngModel)]="perpage" (input)="changePerpage()">
+          <div style="display: flex">
+            <a (click)="selectPage(null,null,true)">&laquo;</a>
+            <div *ngFor="let i of totalPage">
+              <a  [ngClass]="page===i+1 ? 'active': '' " (click)="selectPage(i+1)">{{ i+1 }}</a>
+            </div>
+            <a (click)="selectPage(null,true,null)">&raquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

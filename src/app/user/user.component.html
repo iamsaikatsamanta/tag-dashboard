@@ -1,0 +1,111 @@
+<div class="m-content">
+  <div class="m-portlet">
+
+
+    <div class="m-portlet">
+      <div class='m-portlet-head customhead'>
+        <h2 style="color: aliceblue">User List <span *ngIf="totalPage">(Total User {{ totalPage }})</span></h2>
+      </div>
+
+
+      <!-- The Modal -->
+      <div [style.display]='modal' id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeModal()" class="close">&times;</span>
+          <h3>User Details</h3>
+          <app-usercampaigndetails [mode]="mode" [modal]="modal"></app-usercampaigndetails>
+        </div>
+
+      </div>
+      <div [style.display]='userCampModal'  class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeUserCampModal()" class="close">&times;</span>
+          <h3>Applied Campaign Data</h3>
+          <app-appliedcamp-detels [appliedCampData]="userCampData"></app-appliedcamp-detels>
+        </div>
+      </div>
+
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+            <!--            <div class="input-group-btn search-panel">-->
+            <!--              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">-->
+            <!--                <span id="search_concept">Filter by</span> <span class="caret"></span>-->
+            <!--              </button>-->
+            <!--              <ul class="dropdown-menu" role="menu">-->
+            <!--                <li><a href="#contains">Contains</a></li>-->
+            <!--                <li><a href="#its_equal">It's equal</a></li>-->
+            <!--                <li><a href="#greather_than">Greather than ></a></li>-->
+            <!--                <li><a href="#less_than">Less than </a></li>-->
+            <!--                <li class="divider"></li>-->
+            <!--                <li><a href="#all">Anything</a></li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
+
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Search text." [(ngModel)]="term" (input)="search()">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="search()">Search</button>
+            </span>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="exportToCsv()">Export To csv</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="m-portlet_body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Join Date</th>
+            <th>Instagram Id</th>
+            <th>Mobile/Email</th>
+            <th>City</th>
+            <th>Followers</th>
+            <th>Engagement Rate</th>
+            <th>Posts</th>
+            <th>Paytm No</th>
+            <th>Action</th>
+            </thead>
+
+            <tbody>
+            <tr *ngFor="let user of users; index as i">
+              <th scope="row">{{ (page-1)*perpage + i + 1 }}</th>
+
+              <td>{{ user.name }}</td>
+              <td><img class="category-image" src="{{ user.profileimageurl }}"></td>
+              <td>{{user.createdAt | date: 'medium'}}</td>
+              <td (click)="openInsta(i)">{{ user.instagram_id }}</td>
+              <td>{{ user.email }}/{{ user.phoneNo}}</td>
+              <td *ngIf="user.address?.city">{{ user.address.city}}</td>
+              <td *ngIf="!user.address?.city">-</td>
+              <td *ngIf="user.scrapped_data?.totalfollower">{{user.scrapped_data.totalfollower}}</td>
+              <td *ngIf="!user.scrapped_data?.totalfollower">-</td>
+              <td *ngIf="user.scrapped_data?.engagementrate">{{user.scrapped_data.engagementrate}}</td>
+              <td *ngIf="!user.scrapped_data?.engagementrate">-</td>
+              <td *ngIf="user.scrapped_data?.totalpost">{{user.scrapped_data.totalpost}}</td>
+              <td *ngIf="!user.scrapped_data?.totalpost">-</td>
+              <td *ngIf="user.paytmNo">{{user.paytmNo}}</td>
+              <td *ngIf="!user.paytmNo">-</td>
+              <td><a class="btn btn-danger" (click)="openModal(i)">See More</a></td>
+              <td><a class="btn btn-warning" (click)="openUserCampModal(i)">User Application Status</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <pagination [totalItems]="totalPage" [(ngModel)]="page" [maxSize]="6" (pageChanged)="onchangePage($event)"></pagination>
+      </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,245 @@
+<div class="m-content">
+  <div class="m-portlet">
+
+
+    <div class="m-portlet">
+      <div class='m-portlet-head customhead'>
+        <h2 style="color: aliceblue">Users Registered in {{campaignname}} campaign of {{brandname}} brand</h2>
+      </div>
+      <div class='m-portlet-head '>
+        <button class="btn" (click)="selectAll()">Select all</button>
+        <!-- <button class="btn" (click)="delete()">Delete</button> -->
+
+        <button [disabled]="approvebutton"  (click)="onApprove()"  class="btn">Approve</button>
+        <button [disabled]="rejectbutton"  (click)="onReject()"  class="btn">Reject</button>
+        <button [disabled]="taskapprovebutton"  (click)="onTaskApproval()"  class="btn">Task Approved</button>
+        <button [disabled]="needmodificationbutton"  (click)="openModalPayment('')"  class="btn">Need Modification</button>
+        <button (click)="exportToCsv()"  class="btn">Export To Csv</button>
+        <button [disabled]="releasepaymentbutton"  (click)="openModalPayment('Release Payment')"  class="btn">Release Payment</button>
+      </div>
+
+
+      <!-- The Modal -->
+      <div [style.display]='modal' id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeModal()" class="close">&times;</span>
+          <h3>User Details</h3>
+          <app-usercampaigndetails [mode]="mode" [modal]="modal" ></app-usercampaigndetails>
+        </div>
+
+      </div>
+
+      <div [style.display]='modalPayment' class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeModalPayment()" class="close">&times;</span>
+          <app-payoutoption (data)="receiveData($event)" [mode]="paymentModalOption" [chakced]="chakced" [modal]="modalPayment"></app-payoutoption>
+        </div>
+
+      </div>
+
+            <!-- The Modal -->
+            <div [style.display]='questionModal' id="myModal" class="modal">
+
+              <!-- Modal content -->
+              <div class="modal-content">
+                <span (click)="closeQuestionModal()" class="close">&times;</span>
+                <h3>Question & Answer</h3>
+                <app-qanda [items]="question"></app-qanda>
+              </div>
+      
+            </div>
+      <div [style.display]='feedModal'  class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeFeedModal()" class="close">&times;</span>
+          <h3>Feed</h3>
+          <app-feeds [id]="feedId" [campData]="campData" [link]="link"></app-feeds>
+        </div>
+
+      </div>
+
+      <div [style.display]='userCampModal'  class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeUserCampModal()" class="close">&times;</span>
+          <h3>Applied Campaign Data</h3>
+          <app-appliedcamp-detels [appliedCampData]="userCampData"></app-appliedcamp-detels>
+        </div>
+
+      </div>
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+            <div class="input-group-btn search-panel">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span id="search_concept">Filter by</span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a (click)="getUserCapByStatus('Pending')">Pending</a></li>
+                <li><a (click)="getUserCapByStatus('Approved')">Approved</a></li>
+                <li><a (click)="getUserCapByStatus('Not Approved')">Rejected</a></li>
+                <li><a (click)="getUserCapByStatus('Link Submitted')">Link Submitted</a></li>
+                <li><a (click)="getUserCapByStatus('Need Modification')">Need Modification</a></li>
+                <li><a (click)="getUserCapByStatus('Task Approved')">Task Approved</a></li>                
+                <li><a (click)="getUserCapByStatus('Payment Released')">Payment Released</a></li>
+                <li><a (click)="getUserCapByStatus('All')">All</a></li>
+              </ul>
+            </div>
+
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Search text." [(ngModel)]="term" (keyup.enter)="search()">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="search()">Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Followers" [(ngModel)]="filterData.follower">
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Engagement Rate." [(ngModel)]="filterData.er">
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="City" [(ngModel)]="filterData.city">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="apply()">&#x2934;</button>
+            </span>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="applyFilter()">&#x2935;</button>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+            <select class="form-control form-group" style="margin-top: 5px;" [(ngModel)]="noti.status">
+              <option value="">Select Status</option>
+              <option value="Approved">Approved</option>
+              <option value="Need Modification">Need Modification</option>
+              <option value="Task Approved">Task Approved</option>
+            </select>
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Title" [(ngModel)]="noti.title">
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Content" [(ngModel)]="noti.content">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="sendNoti()">Send Notification</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="m-portlet_body">
+        <div class="table-responsive">
+          <table *ngIf="userCamp" class="table table-bordered">
+            <thead>
+            <th>Select</th>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Application Date</th>
+            <th>MobileNo/Emailid</th>
+            <th>Address</th>
+            <th>Instagram</th>
+            <th>Followers</th>
+            <th>Engagement Rate</th>
+            <th>Total No of Post</th>
+            <th>Paytm No</th>
+            <th>Payout</th>
+            <th>Question Answer</th>
+            <th>Status</th>
+            <th>View Post</th>
+            <th>Details</th>
+          
+            <th>Action</th>
+
+
+            </thead>
+
+            <tbody >
+            <tr *ngFor="let camp of userCamp; index as i">
+              <td style="width: 20px;"><input class="" type="checkbox" name="" id="" [checked]="camp.checked" (click)="onChecked(camp._id)"></td>
+               <th scope="row">{{ (page-1)*perpage + i + 1 }}</th>
+              <td *ngIf='camp.user'>{{camp.user.name}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+            
+              <td *ngIf='camp.user'><img style="height: 25px;width: 25px;" src={{camp.user.profileimageurl}}></td>
+              <td *ngIf='!camp.user'><img style="height: 25px;width: 25px;" src="https://www.google.co.in/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"></td>
+              
+              <td *ngIf='camp.user'>{{camp.updatedAt | date: 'medium'}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user'>{{camp.user.phoneNo}}<br>{{camp.user.email}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user'><b>Street  -</b><span *ngIf="camp.user.address">{{camp.user.address?.street_name}}</span><br><b>Flat no  -</b>{{camp.user.address?.flat_no}}<br><b>building name  -</b>{{camp.user.address?.building_name}}<br><b>City  -</b>{{camp.user.address?.city}}<br><b>pincode  -</b>{{camp.user.address?.pincode}}<br><b>state  -</b>{{camp.user.address?.state}}</td>
+              <!-- <td *ngIf='camp.user'><b>Street  -</b>{{camp.user.address.street_name}}<br><b>Flat no  -</b>{{camp.user.address.flat_no}}<br><b>building name  -</b>{{camp.user.address.building_name}}<br><b>City  -</b>{{camp.user.address.city}}<br><b>pincode  -</b>{{camp.user.address.pincode}}<br><b>state  -</b>{{camp.user.address.state}}</td> -->
+
+              <td *ngIf='camp.user' (click)="openInstagram(i)">{{camp.user.instagram_id}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user.scrapped_data'>{{camp.user.scrapped_data.totalfollower}}</td>
+              <td *ngIf='!camp.user.scrapped_data'>Null</td>
+
+              <td *ngIf='camp.user.scrapped_data'>{{camp.user.scrapped_data.engagementrate}}</td>
+              <td *ngIf='!camp.user.scrapped_data'>Null</td>
+
+              <td *ngIf='camp.user.scrapped_data'>{{camp.user.scrapped_data.totalpost}}</td>
+              <td *ngIf='!camp.user.scrapped_data'>Null</td>
+
+
+              <td *ngIf='camp.user.paytmNo'>{{ camp.user.paytmNo }}</td>
+              <td *ngIf='!camp.user.paytmNo'>-</td>
+
+              <td *ngIf='camp.paymentAmount'>{{ camp.paymentAmount }}</td>
+              <td *ngIf='!camp.paymentAmount'>-</td>
+
+              <td *ngIf='camp.question'><a class="btn btn-warning" (click)="openQuestionModal(i)">See Answer</a></td>
+              <td *ngIf='!camp.question'>Null</td>
+
+              <td>{{ camp.status }}</td>
+
+
+              <td *ngIf="camp.postLink.length > 0"><a (click)="viewPost(i)" class="btn btn-danger">View Post</a></td>
+              <td *ngIf="camp.postLink && !camp.postLink.length > 0">-</td>
+
+              <td *ngIf='camp.user'><a class="btn btn-warning" (click)="openModal(i)">See More</a></td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user'>
+                <a class="btn btn-warning" (click)="openUserCampModal(i)">User Application Status</a>
+              </td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              
+
+             
+
+           
+              <!-- <td><button class="btn btn-warning" (click)="onEdit(i)">edit</button> -->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+<!--       <div class="m-portlet-head">-->
+<!--        <div class="pagination" >-->
+<!--          <input type="text"  placeholder="per page" [(ngModel)]="perpage" (input)="changePerpage()">-->
+<!--          <div style="display: flex">-->
+<!--            <a (click)="selectPage(null,null,true)">&laquo;</a>-->
+<!--            <div *ngFor="let i of total">-->
+<!--              <a  [ngClass]="page===i+1 ? 'active': '' " (click)="selectPage(i+1)">{{ i+1 }}</a>-->
+<!--            </div>-->
+<!--            <a (click)="selectPage(null,true,null)">&raquo;</a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <pagination [totalItems]="total" [(ngModel)]="page" [maxSize]="6" (pageChanged)="onchangePage($event)"></pagination>
+         </div>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="m-content">
+  <div class="m-portlet">
+
+
+    <div class="m-portlet">
+      <div class='m-portlet-head customhead'>
+        <h2 style="color: aliceblue">Approved Users in {{campaignname}} campaign of {{brandname}} brand</h2>
+      </div>
+      <div class='m-portlet-head '>
+        <!-- <button class="btn" (click)="delete()">Delete</button> -->
+
+        <button (click)="sync()"  class="btn">Sync</button>
+        <button (click)="exportToCsv()"  class="btn">Export To CSV</button>
+
+      </div>
+      <div class="m-portlet_body">
+        <div class="table-responsive">
+          <table *ngIf="userCamp" class="table table-bordered">
+            <thead>
+            <th>select   </th>
+            <th>No.</th>
+            <th>Name</th>
+            <th>Application Date</th>
+            <th>MobileNo/Emailid</th>
+            <th>Instagram</th>
+            <th>Date Of Birth</th>
+            <th>Gender</th>
+            <th>Paytm No</th>
+            <th>Payout</th>
+            <th>Links</th>
+            <th>Likes</th>
+            <th>Comments</th>
+            <th>Views</th>
+
+            </thead>
+
+            <tbody >
+            <tr *ngFor="let camp of userCamp; index as i">
+               <th scope="row">{{ i + 1 }}</th>
+              <td *ngIf='camp.user'>{{camp.user.name}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+            
+              <td *ngIf='camp.user'>{{camp.updatedAt | date: 'medium'}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user'>{{camp.user.phoneNo}}<br>{{camp.user.email}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user'>{{camp.user.instagram_id}}</td>
+              <td *ngIf='!camp.user'>Null</td>
+
+              <td *ngIf='camp.user.birthday'>{{camp.user.birthday | date}}</td>
+              <td *ngIf='!camp.user.birthday'>-</td>
+
+              <td *ngIf='camp.user?.gender'>{{camp.user.gender}}</td>
+              <td *ngIf='!camp.user?.gender'>-</td>
+
+              <td *ngIf='camp.user.paytmNo'>{{ camp.user.paytmNo }}</td>
+              <td *ngIf='!camp.user.paytmNo'>-</td>
+
+              <td *ngIf='camp.paymentAmount'>{{ camp.paymentAmount }}</td>
+              <td *ngIf='!camp.paymentAmount'>-</td>
+
+              <td *ngIf='camp.postLink.length>0'>{{ camp.postLink[0] }}</td>
+              <td *ngIf='!camp.postLink.length>0'>-</td>
+           
+
+              <td *ngIf='camp.feed?.likes>0'>{{ camp.feed.likes }}</td>
+              <td *ngIf='!camp.feed?.likes'>-</td>
+
+              
+              <td *ngIf='camp.feed?.comments'>{{ camp.feed.comments }}</td>
+              <td *ngIf='!camp.feed?.comments'>-</td>
+
+
+              <td *ngIf='camp.feed?.views'>{{ camp.feed.views }}</td>
+              <td *ngIf='!camp.feed?.views'>-</td>
+              <!-- <td><button class="btn btn-warning" (click)="onEdit(i)">edit</button> -->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+  </div>
+</div>
+

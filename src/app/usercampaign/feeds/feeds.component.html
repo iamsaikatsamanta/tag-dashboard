@@ -1,0 +1,88 @@
+<div *ngIf="feed">
+<div class="row">
+  <div class="col-md-7">
+    <img *ngIf="!feed.isVideo" [src]="feed.image_url" style="width: 620px; height: 400px " >
+    <video *ngIf="feed.isVideo" width="620" height="400" controls>
+      <source [src]="feed.video_url" type="video/mp4">
+    </video>
+  </div>
+  <div class="col-md-5">
+    <div *ngIf="feed.feedbody">
+      <h4>Caption</h4>
+      <p>Caption: {{feed.feedbody}}</p>
+    </div>
+    <p *ngIf="feed.location"><strong>Location: </strong>{{feed.location}}</p>
+    <p><strong>Likes: </strong>{{feed.likes}}</p>
+    <p><strong>Comments: </strong>{{feed.comments}}</p>
+    <p *ngIf="feed.isVideo"><strong>Views:</strong>{{feed.views}}</p>
+  </div>
+</div>
+<div class="row" *ngIf="campData.tags.length>0" >
+  <div class="col-lg-12 col-md-12">
+    <h4>Tags</h4>
+  </div>
+  <table  class="table table-bordered">
+    <thead style="text-align: center">
+      <th *ngFor="let tag of campData.tags">{{tag}}</th>
+    </thead>
+    <tbody style="text-align: center">
+    <td *ngFor="let tag of tags">
+      <img *ngIf="tag" src="../../../assets/right.png">
+      <img *ngIf="!tag" src="../../../assets/wrong.png">
+    </td>
+    </tbody>
+  </table>
+</div>
+
+<div class="row" *ngIf="campData.hashtag.length>0">
+  <div class="col-lg-12 col-md-12">
+    <h4>Hashtags</h4>
+  </div>
+  <table  class="table table-bordered">
+    <thead style="text-align: center">
+    <th *ngFor="let hashtag of campData.hashtag">{{hashtag}}</th>
+    </thead>
+    <tbody style="text-align: center">
+    <td *ngFor="let has of hastags">
+      <img *ngIf="has" src="../../../assets/right.png">
+      <img *ngIf="!has" src="../../../assets/wrong.png">
+    </td>
+    </tbody>
+  </table>
+</div>
+<div class="row" *ngIf="campData.bioLink!==''|| campData.bioLink!==null">
+  <div class="col-lg-12 col-md-12">
+    <h4>Link In Bio</h4>
+  </div>
+  <table  class="table table-bordered">
+    <thead style="text-align: center">
+    <th>{{campData.bioLink}}</th>
+    </thead>
+    <tbody style="text-align: center">
+    <td>
+      <img *ngIf="biolink" src="../../../assets/right.png">
+      <img *ngIf="!biolink" src="../../../assets/wrong.png">
+    </td>
+    </tbody>
+  </table>
+</div>
+<div class="row" *ngIf="campData.location!==''">
+  <div class="col-lg-12 col-md-12">
+    <h4>Location</h4>
+  </div>
+  <table  class="table table-bordered">
+    <thead style="text-align: center">
+    <th>{{campData.location}}</th>
+    </thead>
+    <tbody style="text-align: center">
+    <td>
+      <img *ngIf="location" src="../../../assets/right.png">
+      <img *ngIf="!location" src="../../../assets/wrong.png">
+    </td>
+    </tbody>
+  </table>
+</div>
+</div>
+<div *ngIf="!feed"><h4 style="text-align: center">Unable to load The Post Click On View Post to See the Post</h4></div>
+<button class="btn btn-danger float-right" (click)="viewPosts()">View Post</button>
+<button class="btn btn-danger float-right" (click)="sync()">Sync</button>

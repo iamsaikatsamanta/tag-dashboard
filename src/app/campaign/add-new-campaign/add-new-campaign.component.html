@@ -1,0 +1,164 @@
+<form  [formGroup]="campForm"  >
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label>select category</label>
+        <select class="form-control" formControlName ="category" (change)="onSelectCategory($event.target.value)">
+          <option value="{{category._id}}" *ngFor ="let category of categories" >{{category.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label>Select Subcategory</label>
+        <select class="form-control" formControlName="subcategory">
+          <option *ngFor ="let subcategory of subcategories" [value]="subcategory._id" >{{subcategory.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label >Select Brand</label>
+        <select class="form-control" formControlName="brand">
+          <option *ngFor ="let brand of brands" [value]="brand._id" >{{brand.name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label >Submission Count</label>
+        <input type="number" class="form-control" formControlName="submitioncount">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label >Start Date</label>
+        <input type="text" bsDatepicker
+               class="form-control"
+               formControlName="startedfrom"
+        />
+      </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+      <div class="form-group">
+        <label >End Date</label>
+        <input type="text" bsDatepicker
+               class="form-control"
+               formControlName="expireson"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label >Title</label>
+    <input type="text" formControlName="name" class="form-control">
+  </div>
+  <div class="form-group">
+    <label >Web View Url</label>
+    <input type="text" formControlName="webViewUrl" class="form-control">
+  </div>
+  <div class="form-group">
+    <label >Bio Link</label>
+    <input type="text" formControlName="bioLink" class="form-control">
+  </div>
+  <div class="form-group">
+    <label >Description</label>
+    <textarea formControlName="description" rows="8" class="form-control"></textarea>
+  </div>
+  <div class="form-group">
+    <label >Cover Photo</label>
+    <input type="file" (change)="onImagePicked($event)" class="form-control">
+    <div class="image-preview" *ngIf="campForm.get('imgUrl').value">
+      <img [src]="campForm.get('imgUrl').value">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-lg-6">
+      <div class="form-group">
+        <label >Max Earning</label>
+        <input type="number" class="form-control" formControlName="maxearning">
+      </div>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+      <div class="form-group">
+        <label >Number of Participants</label>
+        <input type="number" class="form-control" formControlName="maxparticipant">
+      </div>
+    </div>
+  </div>
+</form>
+  <div class="form-group">
+    <label>Requirements</label>
+    <div *ngFor="let req of requirements; index as i">
+      <input type="text" [(ngModel)]="req.value" class="form-control"><span (click)="plusReq()"><h4>+</h4></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label >To Do Next</label>
+    <div *ngFor="let todo of todonext; index as i">
+      <input type="text" [(ngModel)]="todo.value" class="form-control"><span (click)="plustodo()"><h4>+</h4></span>
+    </div>
+  </div>
+  <div *ngFor="let other of otherlink">
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="form-group">
+          <label>Other Link Title</label>
+            <input type="text" class="form-control" [(ngModel)]="other.title">
+        </div>
+      </div>
+      <div class="col-lg-4 col-sm-12">
+        <div class="form-group">
+          <label>Other Link</label>
+          <input type="text" class="form-control" [(ngModel)]="other.link">
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-12">
+        <div class="form-group">
+          <label>link type</label>
+          <select class="form-control" formControlName="brand" [(ngModel)]="other.isOpenable">
+              <option>select</option>
+            <option [value]="true" >Open</option>
+            <option [value]="false" >Copy</option>
+
+          </select>
+          <span (click)="plusOther()"><h4>+</h4></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Question</label>
+    <div *ngFor="let question of questions;index as i">
+      <input type="text" class="form-control" [(ngModel)]="question.value"><span (click)="plusQuestions()"><h4>+</h4></span>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Automated Checking</label
+  ></div>
+  <div class="form-group">
+    <label>Tags</label>
+    <div *ngFor="let tag of tags;index as i">
+      <input type="text" class="form-control" [(ngModel)]="tag.value"><span (click)="plusTags()"><h4>+</h4></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>HashTags</label>
+    <div *ngFor="let hash of hashtag;index as i">
+      <input type="text" class="form-control" [(ngModel)]="hash.value"><span (click)="plusHashTags()"><h4>+</h4></span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Location</label>
+      <input type="text" class="form-control" [(ngModel)]="location">
+  </div>
+  <div>
+    <input type="checkbox" formControlName="applicationClosed" value="true" [checked]="campForm.get('applicationClosed').value" (click)="onChecked()" > Application Close
+  </div>
+  <button type="submit" class="btn btn-default float-right" (click)="onSubmit()">Add</button>

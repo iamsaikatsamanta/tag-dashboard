@@ -1,0 +1,109 @@
+<div *ngIf="mode">
+<div class="row">
+  <div class="col-md-6">
+    <label>Name</label>
+  </div>
+  <div class="col-md-6">
+    <p>{{ mode.name }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <label>Email</label>
+  </div>
+  <div class="col-md-6">
+    <p>{{ mode.email }}</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <label>Phone No</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.phoneNo"> {{ mode.phoneNo }}</p>
+    <p *ngIf="!mode.phoneNo">-</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <label>High School</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.education && mode.education.highschool && mode.education.highschool?.name">{{mode.education.highschool.name}}</p>
+    <p *ngIf="!mode.education && !mode.education.highschool && !mode.education.highschool?.name">-</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <label>Graduation College</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.education && mode.education.graduate_college && mode.education.graduate_college?.name">{{ mode.education.graduate_college.name }}</p>
+    <p *ngIf="!mode.education && !mode.education.graduate_college && !mode.education.graduate_college?.name">-</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Master's College</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.education && mode.education.masters_college && mode.education.masters_college?.name">{{ mode.education.masters_college.name }}</p>
+    <p *ngIf="!mode.education && !mode.education.masters_college && !mode.education.masters_college?.name">-</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Location</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.address"><b>Street Name  -</b>{{ mode.address.street_name }} ,<b>landmark</b>{{mode.address.landmark}},<b>flat no  -</b>{{mode.address.flat_no}},<br><b>building name -</b>{{mode.address.building_name}},<b>City  -</b>{{mode.address.city}},<b>Pincode</b>{{mode.address.pincode}},<b>state  -</b>{{mode.address.state}}</p>
+    <p *ngIf="!mode.address">-</p>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Date of Birth</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.birthday">{{mode.birthday | date}}</p>
+    <p *ngIf="!mode.birthday">-</p>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Gender</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.gender">{{ mode.gender }}</p>
+    <p *ngIf="!mode.gender">-</p>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Income</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.income">{{ mode.income }}</p>
+    <p *ngIf="!mode.income">-</p>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-6">
+    <label>Religion</label>
+  </div>
+  <div class="col-md-6">
+    <p *ngIf="mode.religion">{{ mode.religion }}</p>
+    <p *ngIf="!mode.religion">-</p>
+  </div>
+</div>
+</div>

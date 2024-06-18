@@ -1,0 +1,95 @@
+<div class="m-content">
+  <div class="m-portlet">
+
+
+    <div class="m-portlet">
+      <div class='m-portlet-head customhead'>
+        <h2 style="color: aliceblue">Sub Category List</h2>
+      </div>
+      <div class='m-portlet-head '>
+        <button class="btn" (click)="selectAll()">Select all</button>
+        <button class="btn" (click)="delete()">Delete</button>
+        <button  (click)="openModal()"  class="btn">Add New</button>
+      </div>
+
+
+      <!-- The Modal -->
+      <div [style.display]='modal' id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span (click)="closeModal()" class="close">&times;</span>
+          <h3>Add New Sub Category</h3>
+          <app-add-new-subcategory (data)="receiveData($event)" [mode]="mode" [modal]="modal"></app-add-new-subcategory>
+        </div>
+
+      </div>
+
+      <div class='m-portlet-head '>
+        <div class="col-xs-8 col-xs-offset-2">
+          <div class="input-group">
+            <div class="input-group-btn search-panel">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span id="search_concept">Filter by</span> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#contains">Contains</a></li>
+                <li><a href="#its_equal">It's equal</a></li>
+                <li><a href="#greather_than">Greather than ></a></li>
+                <li><a href="#less_than">Less than </a></li>
+                <li class="divider"></li>
+                <li><a href="#all">Anything</a></li>
+              </ul>
+            </div>
+
+            <input type="text" style="margin-top: 5px;" class="form-control" name="x" placeholder="Search text." [(ngModel)]="term" (input)="search()">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" (click)="search()">Search</button>
+            </span>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="m-portlet_body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+            <th>select   </th>
+            <th>No.</th>
+            <th>Sub Catagory <i style="margin-left:20px;" class="fa fa-sort"></i> </th>
+            <th>Catagory <i style="margin-left:20px;" class="fa fa-sort"></i> </th>
+            <th>Action</th>
+
+
+            </thead>
+
+            <tbody>
+            <tr *ngFor="let subcategory of subCategory; index as i">
+              <td style="width: 20px;"><input class="" type="checkbox" name="" id="" [checked]="subcategory.checked" (click)="onChecked(subcategory._id)"></td>
+              <th scope="row">{{ (page-1)*perpage + i + 1 }}</th>
+              <td>{{ subcategory.name }}</td>
+              <td>{{ subcategory.mainCatagoty.name }}</td>
+              <td><button class="btn btn-warning" (click)="onEdit(i)">edit</button>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="m-portlet-head">
+        <div class="pagination" >
+          <input type="text"  placeholder="per page" [(ngModel)]="perpage" (input)="changePerpage()">
+          <div style="display: flex">
+            <a (click)="selectPage(null,null,true)">&laquo;</a>
+            <div *ngFor="let i of totalPage">
+              <a  [ngClass]="page===i+1 ? 'active': '' " (click)="selectPage(i+1)">{{ i+1 }}</a>
+            </div>
+            <a (click)="selectPage(null,true,null)">&raquo;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

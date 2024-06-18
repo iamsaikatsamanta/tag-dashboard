@@ -1,0 +1,21 @@
+language: node.js
+sudo: required
+services:
+  - docker
+# before_install:
+#   - docker build -t ss033/tag-dashboard -f Dockerfile.dev .
+# script:
+#   - docker run ss033/tag-dashboard ng test --watch=false
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-south-1"
+  app: "tag-dashboard"
+  env: "tagDashboard-env"
+  bucket_name: "elasticbeanstalk-ap-south-1-233420162087"
+  bucket_path: "tag-dashboard"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET"
